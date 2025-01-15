@@ -73,16 +73,19 @@ bool readFullUserFromFile(const string& filename, User& user) {
         return false;
     }
 
-    userFile >> user.username;
-    userFile >> user.password;
+    getline(userFile, user.username);
+    getline(userFile, user.password);
     userFile >> user.age;
-    userFile >> user.gender;
+    userFile.ignore(); 
+    getline(userFile, user.gender);
     userFile >> user.height;
     userFile >> user.weight;
-    userFile >> user.activityLevel;
-    userFile >> user.goal;
+    userFile.ignore(); 
+    getline(userFile, user.activityLevel);
+    getline(userFile, user.goal);
     userFile >> user.calorieDifferenceFromMaintenance;
-    userFile >> user.accountType;
+    userFile.ignore(); 
+    getline(userFile, user.accountType);
     userFile >> user.BMR;
     userFile >> user.dailyCalorieGoal;
 
