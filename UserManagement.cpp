@@ -5,6 +5,19 @@
 using namespace std;
 
 
+void viewDailyLog( User& user) {
+    string choice;
+    do {
+        if (user.accountType == "Premium") calculatingMacronutrients(user);
+        displayDailyIntake(user);
+
+        cout << "\nWrite back to go back to the User Menu: ";
+        cin >> choice;
+    } while (choice != "back");
+    
+
+}
+
 void userMenu(User& user) {
     int choice;
     do {
