@@ -5,6 +5,37 @@
 using namespace std;
 
 
+void displayDailyIntake(User& user) {
+    cout << "\n=== Display Daily Intake ===\n";
+    cout << "Daily Calorie Goal: " << user.caloriesEaten << "/" << user.dailyCalorieGoal << " kcal" << endl;
+    if (user.accountType == "Premium") {
+        cout << "Daily Carbs Goal: " << user.carbsEaten << "/" << user.carbsGoal << " grams" << endl;
+        cout << "Daily Protein Goal: " << user.proteinsEaten << "/" << user.proteinsGoal << " grams" << endl;
+        cout << "Daily Fats Goal: " << user.fatsEaten << "/" << user.fatsGoal << " grams" << endl;
+    }
+}
+
+
+void calculatingMacronutrients(User& user){
+    int dailyCaloriesGoal = user.dailyCalorieGoal;
+    string goal = user.goal;
+    if (goal == "Lose weight") {
+        user.carbsGoal = (0.35 * dailyCaloriesGoal) / 4;
+        user.proteinsGoal = (0.35 * dailyCaloriesGoal)/4;
+        user.fatsGoal = (0.30 * dailyCaloriesGoal) / 9;
+    }
+    else if (goal == "Keep weight") {
+        user.carbsGoal = (0.45 * dailyCaloriesGoal) / 4;
+        user.proteinsGoal = (0.25 * dailyCaloriesGoal) / 4;
+        user.fatsGoal = (0.30 * dailyCaloriesGoal) / 9;
+    }
+    else {
+        user.carbsGoal = (0.35 * dailyCaloriesGoal) / 4;
+        user.proteinsGoal = (0.40 * dailyCaloriesGoal) / 4;
+        user.fatsGoal = (0.25 * dailyCaloriesGoal) / 9;
+    }
+}
+
 void viewDailyLog( User& user) {
     string choice;
     do {
