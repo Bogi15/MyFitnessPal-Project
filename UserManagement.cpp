@@ -5,6 +5,35 @@
 using namespace std;
 
 
+void userMenu(User& user) {
+    int choice;
+    do {
+        cout << "\n=== User Menu ===\n";
+        cout << "1. Add Meal\n";
+        cout << "2. Add Workout\n";
+        cout << "3. View Daily Log\n";
+        cout << "4. Update User Info\n";
+        cout << "5. Log Out\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        switch (choice) {
+        case 1: 
+            addMeal(user); break;
+        case 2: 
+            //addWorkout(user); break;
+        case 3: 
+            viewDailyLog(user); break;
+        case 4: 
+            //updateUserInfo(user); break;
+        case 5: 
+            cout << "Logging out...\n"; break;
+        default:
+            cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 5);
+}
+
+
 int calculateCalorieGoal(const User& user) {
     return user.BMR + user.calorieDifferenceFromMaintenance;
 }
