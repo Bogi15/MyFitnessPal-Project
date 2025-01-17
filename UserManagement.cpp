@@ -109,6 +109,33 @@ void addMeal(User& user) {
     }
 }
 
+void addWorkout(User& user) {
+    Workout workout;
+    workout.id = user.workouts.size() + 1;  
+    cout << "Enter workout name: ";
+    cin.ignore();
+    getline(cin, workout.name);
+
+    cout << "Enter calories burned: ";
+    cin >> workout.caloriesBurned;
+    user.dailyCalorieGoal += workout.caloriesBurned;
+
+    user.workouts.push_back(workout);
+    cout << "Workout added successfully!\n";
+
+    string filename = "users/" + user.username + "_workouts_" + getCurrentDate() + ".txt";
+    ofstream outFile(filename, ios::app); 
+    if (outFile.is_open()) {
+        outFile << workout.id << endl;
+        outFile << workout.name << endl;
+        outFile << workout.caloriesBurned << endl;
+        outFile.close();
+    }
+    else {
+        cout << "Unable to open file to append workout data!" << endl;
+    }
+}
+
 void userMenu(User& user) {
     int choice;
     do {
