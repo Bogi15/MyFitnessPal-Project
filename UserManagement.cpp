@@ -4,6 +4,19 @@
 
 using namespace std;
 
+string getCurrentDate() {
+    
+    time_t now = time(0);
+    tm* ltm = localtime(&now);
+    char date[11];
+    strftime(date, sizeof(date), "%Y-%m-%d", ltm);
+    return string(date);
+
+}
+
+string generateDailyFilename(const string& username) {
+    return "users/" + username + "_" + getCurrentDate() + ".txt";
+}
 
 void displayDailyIntake(User& user) {
     cout << "\n=== Display Daily Intake ===\n";
