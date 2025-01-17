@@ -58,8 +58,55 @@ void viewDailyLog( User& user) {
         cout << "\nWrite back to go back to the User Menu: ";
         cin >> choice;
     } while (choice != "back");
-    
+}
 
+void addMeal(User& user) {
+    Meal meal;
+    meal.id = user.meals.size() + 1;
+    cout << "Enter meal name: ";
+    cin.ignore();
+    getline(cin, meal.name);
+
+    cout << "Enter calories: ";
+    cin >> meal.calories;
+    user.caloriesEaten += meal.calories;
+
+    if (user.accountType == "Premium") {
+        cout << "Enter protein (g): ";
+        cin >> meal.proteins;
+        user.proteinsEaten += meal.proteins;
+
+        cout << "Enter fats (g): ";
+        cin >> meal.fats;
+        user.fatsEaten += meal.fats;
+
+        cout << "Enter carbs (g): ";
+        cin >> meal.carbs;
+        user.carbsEaten += meal.carbs;
+    }
+
+    user.meals.push_back(meal);
+    cout << "Meal added successfully!\n";
+
+    
+    string filename = "users/" + user.username + "_meals_" + getCurrentDate() + ".txt";
+    ofstream outFile(filename, ios::app); 
+    if (outFile.is_open()) {
+        outFile << meal.id << endl;
+        outFile << meal.name << endl;
+        outFile << meal.calories << endl;
+
+        if (user.accountType == "Premium") {
+            outFile << meal.proteins << endl;
+            outFile << meal.fats << endl;
+            outFile << meal.carbs << endl;
+        }
+        
+        outFile.close();
+    }
+    else {
+        cout << "Unable to open file to append meal data!" << endl;
+    }
 }
 
 void userMenu(User& user) {
