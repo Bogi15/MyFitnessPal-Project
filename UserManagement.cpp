@@ -54,6 +54,104 @@ void loadDailyData(User& user) {
 }
 
 
+void dateLog(User& user, const string& date) {
+    cout << "\n=== Daily Log for " << date << " ===\n";
+
+    int totalCaloriesEaten = 0;
+    int totalCaloriesBurned = 0;
+    int totalCarbs = 0;
+    int totalProtein = 0;
+    int totalFats = 0;
+
+    string mealsFilename = "users/" + user.username + "_meals_" + date + ".txt";
+    ifstream mealsFile(mealsFilename);
+    string line;
+
+    if (mealsFile.is_open()) {
+        cout << "\nMeals Consumed:\n";
+        while (true) {
+            string line;
+            int id, calories, protein = 0, fats = 0, carbs = 0;
+            string name;
+              
+            if(!getline(mealsFile, line))  break;
+              
+            id = convertIdToNumber(line);
+            getline(mealsFile, name);
+            mealsFile >> calories;
+
+            if (user.accountType == "Premium") {
+                mealsFile >> protein;
+                mealsFile >> fats;
+                mealsFile >> carbs;
+            }
+            mealsFile.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            totalCaloriesEaten += calories;
+            totalCarbs += carbs;
+            totalProtein += protein;
+            totalFats += fats;
+
+            cout << id << ". " << name << " - " << calories << " kcal";
+            if (user.accountType == "Premium") {
+                cout << ", " << protein << "g protein, " << fats << "g fats, " << carbs << "g carbs";
+            }
+            cout << "\n";
+        }
+        mealsFile.close();
+    }
+    else {
+        cout << "No meals data found for " << date << endl << endl;
+    }
+
+    string workoutsFilename = "users/" + user.username + "_workouts_" + date + ".txt";
+    ifstream workoutsFile(workoutsFilename);
+
+    if (workoutsFile.is_open()) {
+        cout << "\nWorkouts Performed:\n";
+        while (true) {
+            string line;
+            int id, caloriesBurned;
+            string name;
+
+
+            if (!getline(workoutsFile, line)) break;
+
+            id = convertIdToNumber(line);
+            getline(workoutsFile, name);
+            workoutsFile >> caloriesBurned;
+            workoutsFile.ignore(numeric_limits<streamsize>::max(), '\n');
+
+            totalCaloriesBurned += caloriesBurned;
+            cout << id << ". " << name << " - " << caloriesBurned << " kcal burned\n";
+        }
+        workoutsFile.close();
+    }
+    else {
+        cout << "No workouts data found for " << date << endl;
+    }
+
+    
+    cout << "\nSummary:\n";
+    cout << "Total Calories Consumed: " << totalCaloriesEaten << " kcal\n";
+    cout << "Total Calories Burned: " << totalCaloriesBurned << " kcal\n";
+    cout << "Net Calories: " << (totalCaloriesEaten - totalCaloriesBurned) << " kcal\n";
+    if (user.accountType == "Premium") {
+        cout << "Total Carbs Consumed: " << totalCarbs << " grams\n";
+        cout << "Total Protein Consumed: " << totalProtein << " grams\n";
+        cout << "Total Fats Consumed: " << totalFats << " grams\n";
+    }
+    cout << endl;
+}
+
+void loadDateLog( User& user) {
+    string date;
+    cout << "Enter the date (YYYY-MM-DD) for the log you want to view: ";
+    cin >> date;
+    dateLog(user, date);
+}
+
+
 void displayDailyIntake(User& user) {
     cout << "\n=== Display Daily Intake ===\n";
     cout << "Daily Calorie Goal: " << user.caloriesEaten << "/" << user.dailyCalorieGoal << " kcal" << endl;
