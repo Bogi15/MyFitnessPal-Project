@@ -34,6 +34,24 @@ void saveDailyData(const User& user) {
     }
 }
 
+void loadDailyData(User& user) {
+    string filename = "users/" + user.username + "_daily_" + getCurrentDate() + ".txt";
+    ifstream inFile(filename);
+
+    if (inFile.is_open()) {
+        inFile >> user.dailyCalorieGoal;
+        inFile >> user.caloriesEaten;
+        if (user.accountType == "Premium") {
+            inFile >> user.proteinsEaten;
+            inFile >> user.fatsEaten;
+            inFile >> user.carbsEaten;
+        }
+        inFile.close();
+    }
+    else {
+        cout << "Unable to open file to load daily data!" << endl;
+    }
+}
 
 
 void displayDailyIntake(User& user) {
