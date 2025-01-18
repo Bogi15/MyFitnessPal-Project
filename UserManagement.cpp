@@ -18,6 +18,24 @@ string generateDailyFilename(const string& username) {
     return "users/" + username + "_" + getCurrentDate() + ".txt";
 }
 
+void saveDailyData(const User& user) {
+    string filename = "users/" + user.username + "_daily_" + getCurrentDate() + ".txt";
+    ofstream outFile(filename);
+
+    if (outFile.is_open()) {
+        outFile << user.dailyCalorieGoal << endl;
+        outFile << user.caloriesEaten << endl;
+        if (user.accountType == "Premium") {
+            outFile << user.proteinsEaten << endl;
+            outFile << user.fatsEaten << endl;
+            outFile << user.carbsEaten << endl;
+        }
+        outFile.close();
+    }
+}
+
+
+
 void displayDailyIntake(User& user) {
     cout << "\n=== Display Daily Intake ===\n";
     cout << "Daily Calorie Goal: " << user.caloriesEaten << "/" << user.dailyCalorieGoal << " kcal" << endl;
